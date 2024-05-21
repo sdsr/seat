@@ -1,6 +1,8 @@
-function createDesks() {
-    const rows = 5;
-    const cols = 2;
+document.addEventListener('DOMContentLoaded', function() {
+    createDesks(5, 2);
+});
+
+function createDesks(rows, cols) {
     const classroom = document.querySelector('.classroom');
     classroom.innerHTML = '<div class="screen">SCREEN</div>';
 
@@ -10,21 +12,29 @@ function createDesks() {
         for (let j = 0; j < cols; j++) {
             const desk = document.createElement('div');
             desk.className = 'desk';
-            desk.textContent = `${i + 1}${String.fromCharCode(65 + j)}`;
+
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.placeholder = '이름 입력';
+            input.disabled = true;
+
+            const button = document.createElement('button');
+            button.textContent = '수정';
+            button.onclick = function() {
+                if (button.textContent === '수정') {
+                    input.disabled = false;
+                    input.focus();
+                    button.textContent = '확인';
+                } else {
+                    input.disabled = true;
+                    button.textContent = '수정';
+                }
+            };
+
+            desk.appendChild(input);
+            desk.appendChild(button);
             row.appendChild(desk);
         }
         classroom.appendChild(row);
     }
 }
-
-document.addEventListener('DOMContentLoaded', createDesks);
-//
-// document.getElementById('rearrangeButton').addEventListener('click', function () {
-//     const rows = document.querySelectorAll('.row');
-//     for (let row of rows) {
-//         let desks = Array.from(row.querySelectorAll('.desk'));
-//         desks.sort(() => Math.random() - 0.5);
-//         row.innerHTML = '';
-//         desks.forEach(desk => row.appendChild(desk));
-//     }
-// });
